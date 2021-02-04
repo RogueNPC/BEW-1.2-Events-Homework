@@ -17,8 +17,9 @@ main = Blueprint('main', __name__)
 @main.route('/')
 def index():
     """Show upcoming events to users!"""
-    # TODO: Get all events and send to the template
-    return render_template('index.html')
+    # Get all events and send to the template
+    all_events = Event.query.all()
+    return render_template('index.html', all_events=all_events)
 
 
 @main.route('/event/<event_id>', methods=['GET'])
