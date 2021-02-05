@@ -7,8 +7,7 @@
 <a href="/create">+ New Event</a>
 
 <!-- 
-    TODO: Use the event objects to display the correct information (and take 
-    out the hardcoded values)
+    Displays the event information
 -->
 
 {% for event in all_events %}
@@ -18,7 +17,7 @@
         <p><strong>Event Type:</strong> {{ event.date_and_time }}</p>
         <p><strong>Description:</strong> {{ event.description }}</p>
         <!-- <p class="small-text">
-            5 attending
+            {{ event.guests }} attending
         </p> -->
     </div>
 {% endfor %}
