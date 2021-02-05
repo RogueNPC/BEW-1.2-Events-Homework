@@ -25,27 +25,34 @@ def index():
 @main.route('/event/<event_id>', methods=['GET'])
 def event_detail(event_id):
     """Show a single event."""
-    # TODO: Get the event with the given id and send to the template
-    return render_template('event_detail.html')
+    # Get the event with the given id and send to the template
+    event = Event.query.filter_by(id=event_id).one()
+    return render_template('event_detail.html', event=event)
 
 
 @main.route('/event/<event_id>', methods=['POST'])
 def rsvp(event_id):
     """RSVP to an event."""
-    # TODO: Get the event with the given id from the database
+    # Get the event with the given id from the database
+    event = Event.query.filter_by(id=event_id).one()
     is_returning_guest = request.form.get('returning')
     guest_name = request.form.get('guest_name')
 
     if is_returning_guest:
-        # TODO: Look up the guest by name, and add the event to their 
+        # Look up the guest by name, and add the event to their 
         # events_attending, then commit to the database
-        pass
+        guest = Guest.query.filter_by(name=guest_name).one()
+        guest.events_attending.append(event.id)
+        db.session.add(guest)
+        db.session.commit()
     else:
         guest_email = request.form.get('email')
         guest_phone = request.form.get('phone')
-        # TODO: Create a new guest with the given name, email, and phone, and 
+        # Creates a new guest with the given name, email, and phone, and 
         # add the event to their events_attending, then commit to the database
-        pass
+        new_guest = Guest(name=guest_name, email=guest_email, phone=guest_phone, events_attending=event.id)
+        db.session.add(new_guest)
+        db.session.commit()
     
     flash('You have successfully RSVP\'d! See you there!')
     return redirect(url_for('main.event_detail', event_id=event_id))

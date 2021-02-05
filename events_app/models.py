@@ -42,7 +42,7 @@ class Event(db.Model):
 # a table `guest_event_table` with the following columns:
 # - event_id: Integer column (foreign key)
 # - guest_id: Integer column (foreign key)
-guest_event_table = db.Table('book_genre',
+guest_event_table = db.Table('guest_event',
     db.Column('guest_id', db.Integer, db.ForeignKey('guest.id')),
     db.Column('event_id', db.Integer, db.ForeignKey('event.id'))
 )
